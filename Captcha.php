@@ -38,18 +38,23 @@ class Captcha
 
         $str = $this->generateCode($scene);
 
-        $ttf = ROOT_PATH . "/nova/plugin/captcha/fonts/Bitsumishi.ttf";
+        $ttf = ROOT_PATH . "/nova/plugin/captcha/Bitsumishi.ttf";
 
         for ($i = 0; $i < 4; $i++) {
             imagettftext($image, rand(20, 38), rand(0, 30), $i * 50 + 25, rand(30, 70), $this->color($image), $ttf, $str[$i]);
         }
 
 
+        ob_start();
+
         imagejpeg($image);
+
+        $imageData = ob_get_clean();
+
         imagedestroy($image);
 
-        return Response::asNone([
-            "Content-type" => "image/jpeg",
+        return Response::asRaw($imageData,[
+            "Content-Type" => "image/jpeg",
         ]);
     }
 
