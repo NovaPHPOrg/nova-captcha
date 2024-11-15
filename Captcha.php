@@ -10,7 +10,7 @@ class Captcha
 {
     private int $result = 0;
 
-    public function getResult(): string
+    public function getResult(): int
     {
         return $this->result;
     }
