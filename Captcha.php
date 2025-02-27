@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2025. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -25,7 +26,7 @@ class Captcha
 
     public static function verify(string $scene, int $code): bool
     {
-        $result = Session::getInstance()->get($scene,0);
+        $result = Session::getInstance()->get($scene, 0);
         Session::getInstance()->delete($scene);
         return $code === $result;
     }
@@ -53,7 +54,6 @@ class Captcha
             imagettftext($image, rand(20, 38), rand(0, 30), $i * 50 + 25, rand(30, 70), $this->color($image), $ttf, $str[$i]);
         }
 
-
         ob_start();
 
         imagejpeg($image);
@@ -62,7 +62,7 @@ class Captcha
 
         imagedestroy($image);
 
-        return Response::asRaw($imageData,[
+        return Response::asRaw($imageData, [
             "Content-Type" => "image/jpeg",
         ]);
     }
@@ -82,13 +82,13 @@ class Captcha
         $str = $num1 . $operator . $num2 . "=?";
         if ($operator == "+") {
             $this->result = $num1 + $num2;
-        } else if ($operator == "*") {
+        } elseif ($operator == "*") {
             $this->result = $num1 * $num2;
-        } else{
+        } else {
             $this->result = $num1 - $num2;
         }
 
-        if ($this->result == 0){
+        if ($this->result == 0) {
             return $this->generateCode($scene);
         }
 
