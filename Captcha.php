@@ -12,8 +12,7 @@ declare(strict_types=1);
 
 namespace nova\plugin\captcha;
 
-use nova\framework\request\Response;
-use nova\plugin\cookie\Session;
+
 
 class Captcha
 {
