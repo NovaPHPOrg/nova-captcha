@@ -14,6 +14,9 @@ namespace nova\plugin\captcha;
 
 
 
+use nova\framework\http\Response;
+use nova\plugin\cookie\Session;
+
 class Captcha
 {
     private int $result = 0;
