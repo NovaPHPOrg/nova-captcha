@@ -28,8 +28,8 @@ class Captcha
 
     public static function verify(string $scene, int $code): bool
     {
-        $result = Session::getInstance()->get($scene, 0);
-        Session::getInstance()->delete($scene);
+        $result = Session::getInstance()->get("captcha_$scene", 0);
+        Session::getInstance()->delete("captcha_$scene");
         return $code === $result;
     }
 
@@ -94,7 +94,7 @@ class Captcha
             return $this->generateCode($scene);
         }
 
-        Session::getInstance()->set($scene, $this->result, 300);
+        Session::getInstance()->set("captcha_$scene", $this->result, 300);
         return $str;
     }
 }
