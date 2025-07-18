@@ -24,16 +24,16 @@ class Captcha
         return $this->result;
     }
 
-    public static function verify(string $scene, int $code): bool
+    public static function verify(int $code): bool
     {
-        $result = Session::getInstance()->get("captcha_$scene", 0);
-        Session::getInstance()->delete("captcha_$scene");
+        $result = Session::getInstance()->get("captcha_item", 0);
+        Session::getInstance()->delete("captcha_item");
         return $code === $result;
     }
 
     /**
      */
-    public function create(string $scene): Response
+    public function create(): Response
     {
         $image = imagecreate(200, 100);
         imagecolorallocate($image, 0, 0, 0);
@@ -46,7 +46,7 @@ class Captcha
             imagesetpixel($image, rand(0, 200), rand(0, 100), $this->color($image));
         }
 
-        $str = $this->generateCode($scene);
+        $str = $this->generateCode();
 
         $ttf = ROOT_PATH . "/nova/plugin/captcha/Bitsumishi.ttf";
 
@@ -72,7 +72,7 @@ class Captcha
         return imagecolorallocate($image, rand(127, 255), rand(127, 255), rand(127, 255));
     }
 
-    private function generateCode(string $scene): string
+    private function generateCode(): string
     {
         $operators = ["+", "-", "*"];
         $num1 = rand(0, 9);
@@ -89,10 +89,10 @@ class Captcha
         }
 
         if ($this->result == 0) {
-            return $this->generateCode($scene);
+            return $this->generateCode();
         }
 
-        Session::getInstance()->set("captcha_$scene", $this->result, 300);
+        Session::getInstance()->set("captcha_item", $this->result, 300);
         return $str;
     }
 }
